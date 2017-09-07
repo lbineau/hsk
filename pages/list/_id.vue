@@ -20,12 +20,14 @@
       </el-table-column>
       <el-table-column
         sortable
+        :sort-method="sortCaracters"
         prop="characters"
         label="Characters"
         width="180">
       </el-table-column>
       <el-table-column
         sortable
+        :sort-method="sortPinyin"
         prop="pinyin"
         label="Pinyin"
         width="180">
@@ -57,7 +59,13 @@ export default {
   methods: {
     ...mapActions({
       playAudio: 'audio/play'
-    })
+    }),
+    sortPinyin (a, b) {
+      return a.pinyin.localeCompare(b.pinyin, 'zh-Latn', { sensitivity: 'accent' }) > 0
+    },
+    sortCaracters (a, b) {
+      return a.characters.localeCompare(b.characters, 'zh-Hans-CN-u-co-stroke') > 0
+    }
   }
 }
 </script>
