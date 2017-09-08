@@ -13,9 +13,9 @@
         label="Son"
         width="80">
         <template scope="scope">
-          <button @click.prevent="playAudio(scope.row.characters)">
+          <el-button type="text" @click.prevent="playAudio(scope.row.characters)">
             <img src="~/assets/svg/sound.svg" alt="Écouter le son" width="22" height="22" />
-          </button>
+          </el-button>
         </template>
       </el-table-column>
       <el-table-column
@@ -47,7 +47,7 @@ export default {
   async asyncData ({ params }) {
     let characters = []
     try {
-      const data = await import(`~/assets/data/characters/hsk-${params.id}.json`)
+      const data = await (await fetch(`/data/characters/hsk-${params.id}.json`)).json()
       characters = data.map(characterArr2Object)
     } catch (error) {
       console.error(error)

@@ -9,6 +9,12 @@
           <router-link :to="{ name: 'list-id', params: { id: level } }">HSK {{ level }}</router-link>
         </el-menu-item>
       </el-submenu>
+      <el-submenu index="3">
+        <template slot="title">Trouver le pinyin</template>
+        <el-menu-item :index="`3-${level}`"  v-for="level in 6" :key="`3-${level}`">
+          <router-link :to="{ name: 'training-id', params: { id: level } }">HSK {{ level }}</router-link>
+        </el-menu-item>
+      </el-submenu>
     </el-menu>
 
   </div>
