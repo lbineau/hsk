@@ -81,7 +81,7 @@ export default {
         return this.$store.state.training.answer
       },
       set (value) {
-        const sanitizedValue = value.trim().toLowerCase()
+        const sanitizedValue = value.toLowerCase()
         this.submitAnswer(sanitizedValue)
       }
     },

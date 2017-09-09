@@ -26,7 +26,7 @@ function generateHintLetters (userAnswer, correctAnswer) {
     // return the letter if letter is correct (can be a space)
     else if (letter === userLetter) return { letter }
     // return 'wrongAccent' if user it is the right letter but the wrong accent
-    else if (removeAccent(userLetter) === removeAccent(letter)) return { letter: userLetter, errorCode: 'wrongAccent' }
+    else if (letter !== ' ' && removeAccent(userLetter) === removeAccent(letter)) return { letter: userLetter, errorCode: 'wrongAccent' }
     // retur 'error' if the user is not correct
     else return { letter: userLetter, errorCode: 'error' }
   })
