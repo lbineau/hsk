@@ -36,7 +36,8 @@ module.exports = {
   ],
   css: [
     'normalize.css',
-    'element-ui/lib/theme-default/index.css'
+    'element-ui/lib/theme-default/index.css',
+    '~/assets/scss/main.scss'
   ],
   mode: 'spa'
 }

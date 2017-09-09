@@ -14,6 +14,7 @@
       <hintLetters :hintLetters="hintLettersArr"></hintLetters>
       <el-autocomplete
         class="el-autocomplete--training"
+        @keypress.native="onKeyPress"
         autofocus
         ref="answerField"
         size="large"
@@ -73,7 +74,7 @@ export default {
         return this.$store.state.training.answer
       },
       set (value) {
-        this.submitAnswer(value.toLowerCase())
+        this.submitAnswer(value.trim().toLowerCase())
       }
     },
     hintLettersArr () {
@@ -92,6 +93,14 @@ export default {
     onSubmit () {
       if (this.success) {
         this.next()
+      }
+    },
+    onKeyPress (e) {
+      // manually limit text maxlength due to lack of support of maxlength attribute for 'el-autocomplete'
+      // https://github.com/ElemeFE/element/issues/6170
+      if (this.answer.length >= this.currentCharacter.pinyin.length) {
+        e.preventDefault()
+        return false
       }
     }
   },

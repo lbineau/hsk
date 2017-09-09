@@ -1,4 +1,4 @@
-export default {
+const accentMap = {
   a: ['ā', 'á', 'ǎ', 'à', 'a'],
   e: ['ē', 'é', 'ě', 'è', 'e'],
   o: ['ō', 'ó', 'ǒ', 'ò', 'o'],
@@ -8,3 +8,10 @@ export default {
   n: ['ń', 'ň', 'n'],
   m: ['', 'm']
 }
+
+export function removeAccent (accent) {
+  const index = Object.values(accentMap).findIndex(accentArr => accentArr.includes(accent))
+  return Object.keys(accentMap)[index]
+}
+
+export default accentMap

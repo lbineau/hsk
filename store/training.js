@@ -1,4 +1,4 @@
-import accentMap from '~/utils/accentMap'
+import accentMap, { removeAccent } from '~/utils/accentMap'
 
 export const state = () => ({
   characters: [],
@@ -14,18 +14,21 @@ export const state = () => ({
 /**
  * Generate hint letters
  * - transform pinyin and anwser string into array
- * - return different value for each letter:
- *   - null if user hasn't typed the letter yet
- *   - the letter if correct (or a space)
- *   - false if the user is not correct
+ * - return different { letter, errorCode } object for each letter
  */
 function generateHintLetters (userAnswer, correctAnswer) {
   let correctAnswerArr = correctAnswer.split('')
   let userAnswerArr = userAnswer.split('')
-  return correctAnswerArr.map((item, i) => {
-    if (userAnswerArr[i] === undefined) return null
-    else if (item === userAnswerArr[i]) return item
-    else return false
+  return correctAnswerArr.map((letter, i) => {
+    const userLetter = userAnswerArr[i]
+    // return null if user hasn't typed the letter yet
+    if (userLetter === undefined) return { letter, errorCode: 'inactive' }
+    // return the letter if letter is correct (can be a space)
+    else if (letter === userLetter) return { letter }
+    // return 'warning' if user it is the right letter but the wrong accent
+    else if (removeAccent(userLetter) === removeAccent(letter)) return { letter: userLetter, errorCode: 'warning' }
+    // retur 'error' if the user is not correct
+    else return { letter, errorCode: 'error' }
   })
 }
 

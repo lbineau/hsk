@@ -55,11 +55,3 @@
   margin: 2em auto;
 }
 </style>
-
-<style>
-  .container {
-    max-width: 1280px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-</style>
