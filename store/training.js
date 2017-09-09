@@ -54,15 +54,18 @@ export const actions = {
       commit('updateCurrentCharacter')
     }
   },
-  submitAnswer ({ commit, state }, value) {
+  submitAnswer ({ commit, state, dispatch }, value) {
     commit('updateAnswer', value)
 
     commit('updateHintLetters', generateHintLetters(state.answer, state.currentCharacter.pinyin))
 
     if (state.answer === state.currentCharacter.pinyin) {
       commit('updateSuccess', true)
-      return
+      dispatch('audio/play', state.currentCharacter.characters, { root: true })
     }
+  },
+  forceCorrectAnswer ({ dispatch, state }) {
+    dispatch('submitAnswer', state.currentCharacter.pinyin)
   },
   /**
    * Update suggestions

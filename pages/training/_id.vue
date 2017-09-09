@@ -15,6 +15,7 @@
       <el-autocomplete
         class="el-autocomplete--training"
         @keypress.native="onKeyPress"
+        @keyup.enter.native="onEnterKeyUp"
         autofocus
         ref="answerField"
         size="large"
@@ -41,6 +42,11 @@ import getCaret from 'caret-position2/get'
 export default {
   components: {
     hintLetters
+  },
+  data () {
+    return {
+      doubleEnterKey: 0
+    }
   },
   async fetch ({ store, params }) {
     try {
@@ -86,6 +92,7 @@ export default {
   methods: {
     ...mapActions({
       submitAnswer: 'training/submitAnswer',
+      forceCorrectAnswer: 'training/forceCorrectAnswer',
       updateSuggestion: 'training/updateSuggestion',
       prev: 'training/prev',
       next: 'training/next'
@@ -105,6 +112,13 @@ export default {
       if (this.answer.length >= this.currentCharacter.pinyin.length) {
         e.preventDefault()
         return false
+      }
+    },
+    onEnterKeyUp (e) {
+      if (this.doubleEnterKey != 0) {
+        this.forceCorrectAnswer()
+      } else {
+        this.doubleEnterKey = setTimeout(() => this.doubleEnterKey = 0, 300)
       }
     }
   },
