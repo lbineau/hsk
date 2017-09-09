@@ -12,19 +12,19 @@
     </div>
     <form @submit.prevent="onSubmit">
       <el-autocomplete
+        class="el-autocomplete--training"
         autofocus
         ref="answerField"
         size="large"
         placeholder="Entrer le pinyin correspondant"
-        @keydown.left="prev"
-        @keydown.right="next"
         :fetch-suggestions="fetchSuggestions"
         :trigger-on-focus="false"
         :disabled="success"
+        popper-class="el-autocomplete-suggestion--training"
         v-model="answer">
       </el-autocomplete>
       <transition name="el-zoom-in-center">
-        <el-button autofocus native-type="submit" ref="next" v-if="success" type="success" icon="check"></el-button>
+        <el-button autofocus native-type="submit" ref="next" v-show="success" type="success" icon="check"></el-button>
       </transition>
     </form>
   </div>
@@ -33,6 +33,7 @@
 <script>
 import characterArr2Object from '~/utils/characterArr2Object'
 import { mapActions } from 'vuex'
+
 export default {
   async fetch ({ store, params }) {
     try {
@@ -67,7 +68,7 @@ export default {
         return this.$store.state.training.answer
       },
       set (value) {
-        this.submitAnswer(value)
+        this.submitAnswer(value.toLowerCase())
       }
     }
   },
@@ -83,13 +84,6 @@ export default {
     onSubmit () {
       if (this.success) {
         this.next()
-      } else {
-      }
-    },
-    onKeyup (e) {
-      if (e.keyCode === 13) {
-        e.preventDefault()
-        this.onSubmit()
       }
     }
   },
@@ -100,19 +94,17 @@ export default {
           message: 'Bravo ! Tu peux passer au charactère suivant en appuyant sur la touche entrée',
           type: 'success'
         })
+        // set focus on the submit button so the user can type enter key to go next
+        this.$nextTick(() => {
+          this.$refs.next.$el.focus()
+        })
       } else {
-        // set focus on the anwserField
+        // set focus on the anwserField so the user can immediatly type the answer
         this.$nextTick(() => {
           this.$refs.answerField.$el.querySelector('.el-input__inner').focus()
         })
       }
     }
-  },
-  mounted () {
-    document.addEventListener('keyup', this.onKeyup)
-  },
-  destroyed () {
-    document.removeEventListener('keyup', this.onKeyup)
   }
 }
 </script>
@@ -149,6 +141,20 @@ export default {
   }
   button[type="submit"] {
     margin: 1em;
+  }
+}
+</style>
+<style lang="scss">
+.el-autocomplete--training {
+  .el-input__inner {
+    text-align: center;
+    font-size: 1.5em;
+  }
+}
+.el-autocomplete-suggestion--training {
+  text-align: center;
+  li {
+    font-size: 1.5em;
   }
 }
 </style>
