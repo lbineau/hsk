@@ -36,6 +36,7 @@
 import characterArr2Object from '~/utils/characterArr2Object'
 import { mapActions } from 'vuex'
 import hintLetters from '~/components/hintLetters'
+import getCaret from 'caret-position2/get'
 
 export default {
   components: {
@@ -74,7 +75,8 @@ export default {
         return this.$store.state.training.answer
       },
       set (value) {
-        this.submitAnswer(value.trim().toLowerCase())
+        const sanitizedValue = value.trim().toLowerCase()
+        this.submitAnswer(sanitizedValue)
       }
     },
     hintLettersArr () {
@@ -84,10 +86,12 @@ export default {
   methods: {
     ...mapActions({
       submitAnswer: 'training/submitAnswer',
+      updateSuggestion: 'training/updateSuggestion',
       prev: 'training/prev',
       next: 'training/next'
     }),
     fetchSuggestions (queryString, callback) {
+      this.updateSuggestion(getCaret(this.$refs.answerField.$el.querySelector('.el-input__inner')).caret - 1)
       return callback(this.$store.state.training.suggestions)
     },
     onSubmit () {

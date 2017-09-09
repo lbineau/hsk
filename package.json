@@ -7,6 +7,7 @@
   "dependencies": {
     "@nuxtjs/pwa": "latest",
     "axios": "^0.16.2",
+    "caret-position2": "^1.0.2",
     "element-ui": "^1.4.4",
     "font-awesome": "^4.7.0",
     "node-sass": "^4.5.3",

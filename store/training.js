@@ -63,17 +63,25 @@ export const actions = {
       commit('updateSuccess', true)
       return
     }
-
-    /**
-     * Update suggestions
-     * - check if the last letter has any accent to suggest
-     * - return an array with values to suggest
-     */
-    const lastLetter = value.slice(-1)
-    const valueWithoutLastLetter = value.slice(0, -1)
-    if (accentMap.hasOwnProperty(lastLetter)) {
-      const suggestions = accentMap[lastLetter].map(accent => {
-        return { value: valueWithoutLastLetter + accent }
+  },
+  /**
+   * Update suggestions
+   * - check if the last letter has any accent to suggest
+   * - return an array with values to suggest
+   */
+  updateSuggestion ({ commit, state }, caretPosition) {
+    // remove suggestions if success state and stop
+    if (state.success) {
+      commit('updateSuggestion', [])
+      return
+    }
+    const anwserArr = state.answer.split('')
+    const suggestionLetter = anwserArr[caretPosition]
+    if (accentMap.hasOwnProperty(suggestionLetter)) {
+      const suggestions = accentMap[suggestionLetter].map(accent => {
+        const newValueArr = [...anwserArr]
+        newValueArr[caretPosition] = accent
+        return { value: newValueArr.join('') }
       })
       commit('updateSuggestion', suggestions)
     } else {
