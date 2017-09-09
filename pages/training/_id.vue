@@ -11,6 +11,7 @@
       </transition>
     </div>
     <form @submit.prevent="onSubmit">
+      <hintLetters :hintLetters="hintLettersArr"></hintLetters>
       <el-autocomplete
         class="el-autocomplete--training"
         autofocus
@@ -33,8 +34,12 @@
 <script>
 import characterArr2Object from '~/utils/characterArr2Object'
 import { mapActions } from 'vuex'
+import hintLetters from '~/components/hintLetters'
 
 export default {
+  components: {
+    hintLetters
+  },
   async fetch ({ store, params }) {
     try {
       const data = await (await fetch(`/data/characters/hsk-${params.id}.json`)).json()
@@ -70,6 +75,9 @@ export default {
       set (value) {
         this.submitAnswer(value.toLowerCase())
       }
+    },
+    hintLettersArr () {
+      return this.$store.state.training.hintLetters
     }
   },
   methods: {
@@ -115,17 +123,18 @@ export default {
   text-align: center;
   padding: 2em 0;
   h1 {
-    font-size: 5em;
-    margin: 0.2em auto;
+    font-size: 4em;
+    margin: 0.5em auto;
+    margin-top: 0;
     font-weight: normal;
   }
   h2 {
-    font-size: 3em;
+    font-size: 2.5em;
     margin: 0.2em auto;
     font-weight: normal;
   }
   h3 {
-    font-size: 2em;
+    font-size: 1em;
     margin: 0.2em auto;
     font-weight: normal;
   }
@@ -134,9 +143,12 @@ export default {
     top: 2em;
     right: 2em;
   }
+  form {
+    margin: 2em auto;
+  }
   .el-autocomplete {
     display: block;
-    margin: 2em auto;
+    margin: 1em auto;
     max-width: 30em;
   }
   button[type="submit"] {

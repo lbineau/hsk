@@ -7,8 +7,27 @@ export const state = () => ({
   answer: '',
   percentage: 0,
   suggestions: [],
-  success: false
+  success: false,
+  hintLetters: []
 })
+
+/**
+ * Generate hint letters
+ * - transform pinyin and anwser string into array
+ * - return different value for each letter:
+ *   - null if user hasn't typed the letter yet
+ *   - the letter if correct (or a space)
+ *   - false if the user is not correct
+ */
+function generateHintLetters (userAnswer, correctAnswer) {
+  let correctAnswerArr = correctAnswer.split('')
+  let userAnswerArr = userAnswer.split('')
+  return correctAnswerArr.map((item, i) => {
+    if (userAnswerArr[i] === undefined) return null
+    else if (item === userAnswerArr[i]) return item
+    else return false
+  })
+}
 
 export const actions = {
   init ({ commit }, characters) {
@@ -35,7 +54,9 @@ export const actions = {
   submitAnswer ({ commit, state }, value) {
     commit('updateAnswer', value)
 
-    if (state.answer.replace(/\s/g, '') === state.currentCharacter.pinyin.replace(/\s/g, '')) {
+    commit('updateHintLetters', generateHintLetters(state.answer, state.currentCharacter.pinyin))
+
+    if (state.answer === state.currentCharacter.pinyin) {
       commit('updateSuccess', true)
       return
     }
@@ -67,6 +88,8 @@ export const mutations = {
     state.answer = ''
     state.success = false
     state.percentage = Math.round(state.currentCharacterIdx / (state.characters.length - 1) * 100)
+    state.hintLetters = generateHintLetters(state.answer, state.currentCharacter.pinyin)
+    state.suggestions = []
   },
   reset (state) {
     state.currentCharacterIdx = 0
@@ -85,5 +108,8 @@ export const mutations = {
   },
   updateSuccess (state, value) {
     state.success = value
+  },
+  updateHintLetters (state, hintLetters) {
+    state.hintLetters = hintLetters
   }
 }
