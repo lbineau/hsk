@@ -14,7 +14,6 @@
       <hintLetters :hintLetters="hintLettersArr"></hintLetters>
       <el-autocomplete
         class="el-autocomplete--training"
-        @keypress.native="onKeyPress"
         @keyup.enter.native="onEnterKeyUp"
         autofocus
         ref="answerField"
@@ -81,8 +80,13 @@ export default {
         return this.$store.state.training.answer
       },
       set (value) {
-        const sanitizedValue = value.toLowerCase()
-        this.submitAnswer(sanitizedValue)
+        // manually limit text maxlength due to lack of support of maxlength attribute for 'el-autocomplete'
+        // https://github.com/ElemeFE/element/issues/6170
+        if (value.length <= this.currentCharacter.pinyin.length) {
+          this.submitAnswer(value)
+        } else {
+          this.$refs.answerField.$refs.input.currentValue = this.answer
+        }
       }
     },
     hintLettersArr () {
@@ -104,14 +108,6 @@ export default {
     onSubmit () {
       if (this.success) {
         this.next()
-      }
-    },
-    onKeyPress (e) {
-      // manually limit text maxlength due to lack of support of maxlength attribute for 'el-autocomplete'
-      // https://github.com/ElemeFE/element/issues/6170
-      if (this.answer.length >= this.currentCharacter.pinyin.length) {
-        e.preventDefault()
-        return false
       }
     },
     onEnterKeyUp (e) {
