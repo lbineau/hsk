@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="list container">
     <el-table
       :data="characters"
       stripe
@@ -71,6 +71,9 @@ export default {
 </script>
 
 <style scoped>
+.list {
+  margin: 2em auto;
+}
 td, img {
   vertical-align: middle;
 }
