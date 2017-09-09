@@ -1,8 +1,8 @@
 <template>
   <ul class="hint">
     <li class="hint__item" v-for="(hint, idx) in hintLetters" :key="idx">
-      <el-tag type="warning" v-text="hint.letter" v-if="hint.errorCode === 'warning'"></el-tag>
-      <el-tag type="error" v-text="'_'" v-else-if="hint.errorCode === 'error'"></el-tag>
+      <el-tag type="warning" v-text="hint.letter" v-if="hint.errorCode === 'wrongAccent'"></el-tag>
+      <el-tag type="danger" v-text="hint.letter" v-else-if="hint.errorCode === 'error'"></el-tag>
       <el-tag type="gray" v-text="'_'" v-else-if="hint.errorCode === 'inactive'"></el-tag>
       <el-tag type="primary" v-html="'&nbsp;'" v-else-if="hint.letter === ' '"></el-tag>
       <el-tag type="success" v-text="hint.letter" v-else></el-tag>

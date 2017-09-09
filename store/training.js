@@ -22,13 +22,13 @@ function generateHintLetters (userAnswer, correctAnswer) {
   return correctAnswerArr.map((letter, i) => {
     const userLetter = userAnswerArr[i]
     // return null if user hasn't typed the letter yet
-    if (userLetter === undefined) return { letter, errorCode: 'inactive' }
+    if (userLetter === undefined) return { errorCode: 'inactive' }
     // return the letter if letter is correct (can be a space)
     else if (letter === userLetter) return { letter }
-    // return 'warning' if user it is the right letter but the wrong accent
-    else if (removeAccent(userLetter) === removeAccent(letter)) return { letter: userLetter, errorCode: 'warning' }
+    // return 'wrongAccent' if user it is the right letter but the wrong accent
+    else if (removeAccent(userLetter) === removeAccent(letter)) return { letter: userLetter, errorCode: 'wrongAccent' }
     // retur 'error' if the user is not correct
-    else return { letter, errorCode: 'error' }
+    else return { letter: userLetter, errorCode: 'error' }
   })
 }
 
