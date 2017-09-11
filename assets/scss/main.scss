@@ -2,10 +2,19 @@
   max-width: 1280px;
   margin-left: auto;
   margin-right: auto;
+  padding: 0 2em;
 }
 .page-enter-active, .page-leave-active {
   transition: opacity 0.3s ease-in-out;
 }
 .page-enter, .page-leave-active {
   opacity: 0;
+}
+
+body, .el-dialog__body {
+  color: #475669;
+}
+
+h1, h2, h3 {
+  color: #324057;
 }

@@ -1,13 +1,39 @@
 <template>
-  <div class="training">
+  <div class="training container">
     <el-progress :percentage="percentage" :width="80" :show-text="true" type="circle" :stroke-width="2"></el-progress>
-    <h1 v-text="currentCharacter.characters"></h1>
+    <div class="toolbar">
+      <el-button type="text" icon="information" @click="helpDialogVisible = true">Aide</el-button>
+      <el-dialog class="el-dialog--help" :visible.sync="helpDialogVisible" size="small">
+        <h1 slot="title">Trouver le pinyin</h1>
+        <h2>Fonctionnement</h2>
+        <p>
+          Il vous faut trouver le pinyin correspondant aux caractères affichés. Une fois le pinyin trouvé, le détail
+          apparaîtra et vous affichera la traduction. Pour passer au suivant, appuyez alors sur entrer.
+        </p>
+
+        <h2>Les pinyins et les accents</h2>
+        <p>
+          Les pinyins peuvent être écrits avec des accents, plutôt difficiles à faire sur certains claviers.
+          C'est pourquoi cette application le gère pour vous. Il vous suffit de taper une lettre pouvant être écrite
+          avec des accents pour que l'application vous propose le choix de l'accent. Pour faciliter la sélection,
+          il suffit de presser les touches gauche et droite du clavier et d'appuyer sur entrer pour valider l'accent.
+          La lettre sera alors remplacée par celle sélectionnée.
+        </p>
+
+        <h2>Je bloque !</h2>
+        <p>
+          Pas de panique, respirez un bon coup et appuyez rapidement deux fois de suite sur entrer. La solution
+          s'affichera.
+        </p>
+      </el-dialog>
+    </div>
+    <h1 class="training__characters" v-text="currentCharacter.characters"></h1>
     <div style="height: 95px">
       <transition name="el-fade-in">
-        <h2 v-if="success" v-text="currentCharacter.pinyin"></h2>
+        <h2 class="training__pinyin" v-if="success" v-text="currentCharacter.pinyin"></h2>
       </transition>
       <transition name="el-fade-in">
-        <h3 v-if="success" v-text="currentCharacter.translation"></h3>
+        <h3 class="training__translation" v-if="success" v-text="currentCharacter.translation"></h3>
       </transition>
     </div>
     <form @submit.prevent="onSubmit">
@@ -44,7 +70,8 @@ export default {
   },
   data () {
     return {
-      doubleEnterKey: 0
+      doubleEnterKey: 0,
+      helpDialogVisible: false
     }
   },
   async fetch ({ store, params }) {
@@ -145,23 +172,28 @@ export default {
   position: relative;
   text-align: center;
   padding: 2em 0;
-  h1 {
+  &__characters {
     font-size: 4em;
     margin: 0.5em auto;
     margin-top: 0;
     font-weight: normal;
   }
-  h2 {
+  &__pinyin {
     font-size: 2.5em;
     margin: 0.2em auto;
     font-weight: normal;
   }
-  h3 {
+  &__translation {
     font-size: 1em;
     margin: 0.2em auto;
     font-weight: normal;
   }
   .el-progress {
+    position: absolute;
+    top: 2em;
+    left: 2em;
+  }
+  .toolbar {
     position: absolute;
     top: 2em;
     right: 2em;
@@ -180,6 +212,15 @@ export default {
 }
 </style>
 <style lang="scss">
+.el-dialog {
+  &--help {
+    text-align: left;
+    h1 {
+      display: inline;
+      line-height: 1;
+    }
+  }
+}
 .el-autocomplete--training {
   .el-input__inner {
     text-align: center;

@@ -2,29 +2,6 @@
   <article>
     <section class="container">
       <h1>Aide</h1>
-
-      <h2>Trouver le pinyin</h2>
-      <h3>Fonctionnement</h3>
-      <p>
-        Il vous faut trouver le pinyin correspondant aux caractères affichés. Une fois le pinyin trouvé, le détail
-        apparaîtra et vous affichera la traduction. Pour passer au suivant, appuyez alors sur entrer.
-      </p>
-
-      <h3>Les pinyins et les accents</h3>
-      <p>
-        Les pinyins peuvent être écrits avec des accents, plutôt difficiles à faire sur certains claviers.
-        C'est pourquoi cette application le gère pour vous. Il vous suffit de taper une lettre pouvant être écrite
-        avec des accents pour que l'application vous propose le choix de l'accent. Pour faciliter la sélection,
-        il suffit de presser les touches gauche et droite du clavier et d'appuyer sur entrer pour valider l'accent.
-        La lettre sera alors remplacée par celle sélectionnée.
-      </p>
-
-      <h3>Je bloque !</h3>
-      <p>
-        Pas de panique, respirez un bon coup et appuyez rapidement deux fois de suite sur entrer. La solution
-        s'affichera.
-      </p>
-
       <h2>Choix multiple</h2>
       <p>
         Dans cet exercice, vous devrez trouver le ou les caractères correspondant à la traduction / pinyin correspondant
